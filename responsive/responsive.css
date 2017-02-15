@@ -1,8 +1,7 @@
-
 @media only screen and (min-width: 1400px) {
     .ralphy {
         width:250px; 
-		height:184px; 
+		height:186px; 
 		background:url(ralphy.gif) 0px 0px;
     }
 }
@@ -10,7 +9,7 @@
 @media only screen and (min-width: 1200px) and (max-width: 1400px){
     .ralphy {
         width:250px; 
-		height:184px; 
+		height:186px; 
 		background:url(ralphy.gif) -250px 0px;
     }
 }
@@ -18,23 +17,23 @@
 @media only screen and (min-width: 1000px) and (max-width: 1200px){
     .ralphy {
         width:250px; 
-		height:184px; 
-		background:url(ralphy.gif) 0px -184px;
+		height:186px; 
+		background:url(ralphy.gif) 0px -186px;
     }
 }
 
 @media only screen and (min-width: 800px) and (max-width: 1000px){
     .ralphy {
         width:250px; 
-		height:184px; 
-		background:url(ralphy.gif) -250px -184px;
+		height:186px; 
+		background:url(ralphy.gif) -250px -186px;
     }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 800px){
     .ralphy {
         width:250px; 
-		height:184px; 
+		height:186px; 
 		background:url(ralphy.gif) 0px -368px;
     }
 }
@@ -42,7 +41,7 @@
 @media only screen and (max-width: 600px){
     .ralphy {
         width:250px; 
-		height:184px; 
+		height:186px; 
 		background:url(ralphy.gif) -250px -368px;
     }
 }
