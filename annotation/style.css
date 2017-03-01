@@ -1,1 +1,18 @@
-empty
+body {
+     background-color: black;
+ }
+
+h1 {
+	color: white;
+	text-align: center;
+}
+
+video {
+	display: block;
+	margin: 0 auto;
+}
+
+h3 {
+	color: white;
+	text-align: center;
+}

@@ -15,37 +15,49 @@
 </div>
 
 <script>
-	// Get the <video> element with id="failvideo"
 	var vid = document.getElementById("failvideo");
 
-	// Assign an ontimeupdate event to the <video> element, and execute a function if the current playback position has changed
-
-	//var lyrics = document.getElementById("lyrics");
-
 	vid.addEventListener("timeupdate", function () {
-	if (vid.currentTime > 8) { document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
-	if (vid.currentTime > 13) { document.getElementById("lyrics").innerHTML = "<h3>Deeper than I've ever dreamed of</h3>";}
-	if (vid.currentTime > 17) { document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
-	if (vid.currentTime > 21) { document.getElementById("lyrics").innerHTML = "<h3>Higher than the heavens above</h3>";}
+		//verse 1
+		if (vid.currentTime > 8) { 
+			document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
+		if (vid.currentTime > 13) { 
+			document.getElementById("lyrics").innerHTML = "<h3>Deeper than I've ever dreamed of</h3>";}
+		if (vid.currentTime > 17) { 
+			document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
+		if (vid.currentTime > 21) { 
+			document.getElementById("lyrics").innerHTML = "<h3>Higher than the heavens above</h3>";}
 
-	//verse 2
-	if (vid.currentTime > 26) { document.getElementById("lyrics").innerHTML = "<h3>I feel good, I feel nice</h3>";}
-	if (vid.currentTime > 30) { document.getElementById("lyrics").innerHTML = "<h3>I've never felt so satisfied</h3>";}
-	if (vid.currentTime > 34) { document.getElementById("lyrics").innerHTML = "<h3>I'm in love, I'm alive</h3>";}
-	if (vid.currentTime > 37) { document.getElementById("lyrics").innerHTML = "<h3>Intoxicated, flyin' high</h3>";}
+		//verse 2
+		if (vid.currentTime > 26) { 
+			document.getElementById("lyrics").innerHTML = "<h3>I feel good, I feel nice</h3>";}
+		if (vid.currentTime > 30) { 
+			document.getElementById("lyrics").innerHTML = "<h3>I've never felt so satisfied</h3>";}
+		if (vid.currentTime > 34) { 
+			document.getElementById("lyrics").innerHTML = "<h3>I'm in love, I'm alive</h3>";}
+		if (vid.currentTime > 37) { 
+			document.getElementById("lyrics").innerHTML = "<h3>Intoxicated, flyin' high</h3>";}
 
-	//verse 3
-	if (vid.currentTime > 44) { document.getElementById("lyrics").innerHTML = "<h3>Feels like a dream</h3>";}
-	if (vid.currentTime > 47) { document.getElementById("lyrics").innerHTML = "<h3>When you touch me tenderly</h3>";}
-	if (vid.currentTime > 51) { document.getElementById("lyrics").innerHTML = "<h3>I don't know if it's real</h3>";}
-	if (vid.currentTime > 55) { document.getElementById("lyrics").innerHTML = "<h3>But I like the way I feel inside</h3>";}
+		//verse 3
+		if (vid.currentTime > 44) { 
+			document.getElementById("lyrics").innerHTML = "<h3>Feels like a dream</h3>";}
+		if (vid.currentTime > 47) { 
+			document.getElementById("lyrics").innerHTML = "<h3>When you touch me tenderly</h3>";}
+		if (vid.currentTime > 51) { 
+			document.getElementById("lyrics").innerHTML = "<h3>I don't know if it's real</h3>";}
+		if (vid.currentTime > 55) { 
+			document.getElementById("lyrics").innerHTML = "<h3>But I like the way I feel inside</h3>";}
 
-	//verse 4
-	if (vid.currentTime > 59) { document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
-	if (vid.currentTime > 63) { document.getElementById("lyrics").innerHTML = "<h3>Deeper than I've ever dreamed of</h3>";}
-	if (vid.currentTime > 67) { document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
-	if (vid.currentTime > 71) { document.getElementById("lyrics").innerHTML = "<h3>Higher than the heavens above</h3>";}
-	}, false)
+		//verse 4
+		if (vid.currentTime > 59) { 
+			document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
+		if (vid.currentTime > 63) { 
+			document.getElementById("lyrics").innerHTML = "<h3>Deeper than I've ever dreamed of</h3>";}
+		if (vid.currentTime > 67) { 
+			document.getElementById("lyrics").innerHTML = "<h3>You've got me feelin' emotions</h3>";}
+		if (vid.currentTime > 71) { 
+			document.getElementById("lyrics").innerHTML = "<h3>Higher than the heavens above</h3>";}
+		}, false)
 
 </script>
 </body>
