@@ -70,8 +70,6 @@
 
 					for (count = 0; count < passArr["passengers"].length; count++) {
 
-						console.log(passArr["passengers"][count]._id);
-
 						var infowindow = new google.maps.InfoWindow();
 						var pass = new google.maps.LatLng(passArr["passengers"][count].lat, passArr["passengers"][count].lng);
 
@@ -83,8 +81,8 @@
 						newmarker.setMap(map);
 
 						google.maps.event.addListener(newmarker, 'click', function() {
-							infowindow.setContent(newmarker.title);
-							infowindow.open(map, newmarker);
+							infowindow.setContent(this.title);
+							infowindow.open(map, this);
 						});
 
 					}
