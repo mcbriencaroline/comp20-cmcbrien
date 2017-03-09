@@ -13,6 +13,20 @@
 	var request = new XMLHttpRequest();
 	var marker;
 
+	function getMyLocation() {
+		console.log("GETTING LOCATION");
+		if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			myLat = position.coords.latitude;
+			myLng = position.coords.longitude;
+			initMap();
+			});
+		}
+		else {
+			alert("Geolocation is not supported by your web browser.  What a shame!");
+			}
+		}
+
 	function initMap() {
       	console.log("INITIALIZING");
         map = new google.maps.Map(document.getElementById('map'), {
@@ -20,23 +34,8 @@
           zoom: 15,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        getMyLocation();
+        renderMap();
       }
-
-	function getMyLocation() {
-				console.log("GETTING LOCATION");
-				if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
-					navigator.geolocation.getCurrentPosition(function(position) {
-						myLat = position.coords.latitude;
-						myLng = position.coords.longitude;
-						initMap();
-					});
-				}
-				else {
-					alert("Geolocation is not supported by your web browser.  What a shame!");
-				}
-			renderMap();
-			}
 
 	function renderMap()
 			{
@@ -69,16 +68,20 @@
 				}
 			};
 			request.send("username=dJys58Ox&lat=" + myLat + "&lng=" + myLng + "");
-			
+			showLocations();
 		}
 
+	function showLocations() {
+		console.log("READY TO SHOW OTHERS' LOCATIONS");
+	}
+
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACf0deH0MqopT_5EGU9qO-3gI-miaFnkw&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACf0deH0MqopT_5EGU9qO-3gI-miaFnkw"
     async defer></script>
 
-     </head>
+    </head>
 
-   <body>
+   <body onload="getMyLocation()">
     <div id="map"></div>
   </body>
 </html>
