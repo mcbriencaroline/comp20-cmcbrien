@@ -1,69 +1,53 @@
 <!DOCTYPE html>
-
 <html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="geo_style.css" />
+    
+ 
 
-	<head>
-		<title>Geolocation Map Example</title>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-<!-- 		<link rel="stylesheet" href="geolocation_map_style.css" /> -->
-		
-		<script>
-			var myLat = 0;
-			var myLng = 0;
-			var request = new XMLHttpRequest();
-			var me = new google.maps.LatLng(myLat, myLng);
-			var myOptions = {
-						zoom: 13, // The larger the zoom number, the bigger the zoom
-						center: me,
-						mapTypeId: google.maps.MapTypeId.ROADMAP
-					};
-			var map;
-			var marker;
-			var infowindow = new google.maps.InfoWindow();
-			
-			function init()
-			{
-				map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-				getMyLocation();
-			}
-			
-			function getMyLocation() {
+
+    <script>
+    var map;
+    var myLat = 0;
+	var myLng = 0;
+	var request = new XMLHttpRequest();
+	//var me = new google.maps.LatLng(myLat, myLng);
+
+	function getMyLocation() {
+				console.log("GETTING LOCATION");
 				if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
-						renderMap();
+						initMap();
 					});
 				}
 				else {
 					alert("Geolocation is not supported by your web browser.  What a shame!");
 				}
 			}
-			function renderMap()
-			{
-				me = new google.maps.LatLng(myLat, myLng);
-				
-				// Update map and go there...
-				map.panTo(me);
-	
-				// Create a marker
-				marker = new google.maps.Marker({
-					position: me,
-					title: "Here I Am!"
-				});
-				marker.setMap(map);
-					
-				// Open info window on click of marker
-				google.maps.event.addListener(marker, 'click', function() {
-					infowindow.setContent(marker.title);
-					infowindow.open(map, marker);
-				});
-			}
-		</script>
-	</head>
-	
-	<body onload="init()">
-		<div id="map_canvas"></div>
-	</body>
+
+    function initMap() {
+      	console.log("INITIALIZING");
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: myLat, lng: myLng},
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        //getMyLocation();
+      }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACf0deH0MqopT_5EGU9qO-3gI-miaFnkw&callback=initMap"
+    async defer></script>
+
+     </head>
+
+   <body onload="getMyLocation()">
+    <div id="map"></div>
+  </body>
 </html>
