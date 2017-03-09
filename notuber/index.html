@@ -12,6 +12,7 @@
 	var myLng = 0;
 	var request = new XMLHttpRequest();
 	var marker;
+	var passArr;
 
 	function getMyLocation() {
 		console.log("GETTING LOCATION");
@@ -31,7 +32,7 @@
       	console.log("INITIALIZING");
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: myLat, lng: myLng},
-          zoom: 15,
+          zoom: 16,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         renderMap();
@@ -39,19 +40,19 @@
 
 	function renderMap()
 			{
-				var infowindow = new google.maps.InfoWindow();
+				var myinfowindow = new google.maps.InfoWindow();
 				console.log("RENDERING MAP");
 				var me = new google.maps.LatLng(myLat, myLng);
 				map.panTo(me);
-				marker = new google.maps.Marker({
+				mymarker = new google.maps.Marker({
 					position: me,
 					title: "cmcbri02"
 				});
-				marker.setMap(map);
+				mymarker.setMap(map);
 
-				google.maps.event.addListener(marker, 'click', function() {
-					infowindow.setContent(marker.title);
-					infowindow.open(map, marker);
+				google.maps.event.addListener(mymarker, 'click', function() {
+					myinfowindow.setContent(mymarker.title);
+					myinfowindow.open(map, mymarker);
 				});
 				loadlocations();
 			}
@@ -61,18 +62,34 @@
 			request = new XMLHttpRequest();
 			request.open("POST", "https://defense-in-derpth.herokuapp.com/submit", true);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.send("username=dJys58Ox&lat=" + myLat + "&lng=" + myLng + "");
 
 			request.onreadystatechange = function() {
 				if (request.readyState == 4 && request.status == 200) {
-					console.log(request.responseText);
+					passArr = JSON.parse(request.responseText);
+
+					for (count = 0; count < passArr["passengers"].length; count++) {
+
+						console.log(passArr["passengers"][count]._id);
+
+						var infowindow = new google.maps.InfoWindow();
+						var pass = new google.maps.LatLng(passArr["passengers"][count].lat, passArr["passengers"][count].lng);
+
+						var newmarker = new google.maps.Marker({
+							position: {lat: passArr["passengers"][count].lat, lng: passArr["passengers"][count].lng},
+							title: passArr["passengers"][count]._id,
+							icon: 'car.png'
+						});
+						newmarker.setMap(map);
+
+						google.maps.event.addListener(newmarker, 'click', function() {
+							infowindow.setContent(newmarker.title);
+							infowindow.open(map, newmarker);
+						});
+
+					}
 				}
 			};
-			request.send("username=dJys58Ox&lat=" + myLat + "&lng=" + myLng + "");
-			showLocations();
-		}
-
-	function showLocations() {
-		console.log("READY TO SHOW OTHERS' LOCATIONS");
 	}
 
     </script>
