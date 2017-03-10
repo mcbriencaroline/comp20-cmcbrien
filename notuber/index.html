@@ -16,7 +16,6 @@
 	var distance;
 
 	function getMyLocation() {
-		console.log("GETTING LOCATION");
 		if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			myLat = position.coords.latitude;
@@ -30,7 +29,6 @@
 		}
 
 	function initMap() {
-      	console.log("INITIALIZING");
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: myLat, lng: myLng},
           zoom: 16,
@@ -42,7 +40,6 @@
 	function renderMap()
 			{
 				var myinfowindow = new google.maps.InfoWindow();
-				console.log("RENDERING MAP");
 				var me = new google.maps.LatLng(myLat, myLng);
 				map.panTo(me);
 				mymarker = new google.maps.Marker({
@@ -70,6 +67,7 @@
 					passArr = JSON.parse(request.responseText);
 
 //if passArr.passengers->then do this, else do it with vehicles
+			if (passArr.passengers) { //if you are a passenger
 
 					for (count = 0; count < passArr["passengers"].length; count++) {
 
@@ -109,9 +107,57 @@
 						});
 
 					}
+				} else { //if you are a vehicle
+					for (count = 0; count < passArr["vehicles"].length; count++) {
+
+						var infowindow = new google.maps.InfoWindow();
+						var pass = new google.maps.LatLng(passArr["vehicles"][count].lat, passArr["vehicles"][count].lng);
+
+						Number.prototype.toRad = function() {
+   								return this * Math.PI / 180;
+						}
+							var lat2 = myLat; 
+							var lon2 = myLng; 
+							var lat1 = passArr["vehicles"][count].lat; 
+							var lon1 = passArr["vehicles"][count].lng; 
+
+							var R = 6371; 
+
+							var x1 = lat2-lat1;
+							var dLat = x1.toRad();  
+							var x2 = lon2-lon1;
+							var dLon = x2.toRad();  
+							var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                				Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                				Math.sin(dLon/2) * Math.sin(dLon/2);  
+							var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+							distance = R * c; 
+
+						var newmarker = new google.maps.Marker({
+							position: pass,
+							title: "Distance Away: " + distance + "",
+							icon: 'person.png'
+						});
+						newmarker.setMap(map);
+
+						google.maps.event.addListener(newmarker, 'click', function() {
+							infowindow.setContent(this.title);
+							infowindow.open(map, this);
+						});
+
+					}
+
+
+
+
+
+
+				}
 				}
 			};
 	}
+
+
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACf0deH0MqopT_5EGU9qO-3gI-miaFnkw"
