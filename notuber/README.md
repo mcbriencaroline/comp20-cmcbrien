@@ -7,3 +7,5 @@ Because I am a passenger, I don't know if this will work if I was a vehicle, but
 Collaboration: Elif Olmez, Colin Murphy, Ben Ewing
 
 Hours spent: 5.5 hours
+
+Note: I used the JavaScript implementation of the Haversine Formula on Stasck Overflow to calculate distances.
