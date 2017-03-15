@@ -4,6 +4,6 @@ Caroline McBrien
 To the best of my knowledge, all parts of this lab are completed correctly. 
 I didn't modify the HTML body, use for or while for looping, or use document.getElementById().
 
-Collaboration: Elif Olmez
+Collaboration: none
 
 Hours spent: 2 hours
