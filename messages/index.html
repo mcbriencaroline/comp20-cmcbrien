@@ -5,20 +5,13 @@
   <title>Messages</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script>
-
-
     $.get( "https://messagehub.herokuapp.com/messages.json", function (data) {
+    		$("#messages").html(function() {
+  			return "</p>";});
     		$.each(data, function (i, value) {
-    			console.log(i + ": " + value.content);
-
     			$("body").append( value.content);
     			$("body").append( " by " + value.username + "<p>")
-    		}
-    		);	
-    	}, "json");
-
-
-
+    		}); }, "json");
   </script>
 </head>
 
