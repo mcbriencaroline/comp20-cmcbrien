@@ -8,12 +8,16 @@
 
 
     $.get( "https://messagehub.herokuapp.com/messages.json", function (data) {
-    		$("div").each(function (i) {
-    			alert("value of i: " + i);
-    			$(this).append( data[i].content ) 
-    			$(this).append( " by " + data[i].username ); 	
-    		});	
+    		$.each(data, function (i, value) {
+    			console.log(i + ": " + value.content);
+
+    			$("body").append( value.content);
+    			$("body").append( " by " + value.username + "<p>")
+    		}
+    		);	
     	}, "json");
+
+
 
   </script>
 </head>
