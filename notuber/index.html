@@ -57,13 +57,14 @@
 
 	function loadlocations() {
 		request = new XMLHttpRequest();
-		request.open("POST", "https://defense-in-derpth.herokuapp.com/submit", true);
+		request.open("POST", "https://stark-spire-66086.herokuapp.com/submit", true);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		request.send("username=dJys58Ox&lat=" + myLat + "&lng=" + myLng + "");
 
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
 				passArr = JSON.parse(request.responseText);
+				console.log(passArr);
 
 				if (passArr.passengers) { //if you are a passenger
 					for (count = 0; count < passArr["passengers"].length; count++) {
