@@ -1,0 +1,9 @@
+body, p {
+    margin-left: 100px;
+    margin-right: 100px;
+    background-color: white;
+}
+
+h1 {
+	text-align: center;
+}

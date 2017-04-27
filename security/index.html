@@ -3,12 +3,79 @@
 <head>
 
 	<title>Assignment 4</title>
+	<link rel="stylesheet" href="security.css"/>
 
 </head>
 
 <body>
+	<h1> Security Assessment </h1>
 	<p>
-			HELLO
+
+	<h2> Introduction </h2>
+		<ul>
+		<li> I analyzed both the server and client sides of a web application called NotUber. The product is designed to store the clien't location, and either connect the client with passengers to transport or vehicles to use. The locations of the passengers and vehicles are stored are its own databse. I have been hired to document any security or privacy issues in this product.</li>
+		<li> Originally, I was hired to analyze the code of Uche Egonu. However, this code did not work. When I tried to load the heroku app page, I received an Application Error. Running his code locally did not work either--there were too many errors for the page to load when run on a local host. Therefore, Ming Chow became my new clinet. </li>
+		</ul>
+
+	<h2> Methodology </h2>
+		<ul>
+		<li> In order to test the application, I first looked at the code, and tried to look for any noticable security flaws. I saw that there might be some weakness in the username field in the "/submit" POST method, and based on that I decided how to test the security of the code. In order to assess the code I used curl. </li>
+		</ul>
+
+	<h2> Abstract of Findings </h2>
+		<ul>
+		<li> Provide an overview of all the security and privacy issues you identified. </li>
+		</ul>
+
+	<h2> Issues Found </h2>
+		<ul>
+		<li> Issue #1: Cross Site Scripting </li>
+			<ul>
+			<li> Location of Issue: This was a problem when the avaliable passengers are displayed on the "/" page. However, the issue arose in the "/submit" POST method.  </li>
+			<li> Severity: </li>
+			<li> Description: </li>
+			<li> Proof of Vulnerability: </li>
+			<li> Resolution: </li>
+			</ul>
+		<li> Issue #2: Overloaded Database </li>
+			<ul>
+			<li> Location of Issue: This problem arose on the back-end of the product, when the data was being inserted into the database. It became apparent when visiting the "/" home page.  </li>
+			<li> Severity: </li>
+			<li> Description: </li>
+			<li> Proof of Vulnerability: </li>
+			<li> Resolution: </li>
+			</ul>
+		<li> Issue #3: HTML Injection </li>
+			<ul>
+			<li> Location of Issue: Once again, this was a problem when the avaliable passengers are displayed on the "/" page. However, the issue arose in the "/submit" POST method.  </li>
+			<li> Severity: </li>
+			<li> Description: </li>
+			<li> Proof of Vulnerability: </li>
+			<li> Resolution: </li>
+			</ul>
+		</ul>
+
+		<h2> Conclusion </h2>
+		<ul>
+		<li> list future considerations and recommendations with costs</li>
+		</ul>
+
+		<h2> References </h2>
+		<ul>
+		<li> list of references used </li>
+		</ul>
+
+<!-- Issues Found - For each issue that you find, document:
+
+	Issue (e.g., database injection, really bad programming practice)
+	Location or page where issue was found
+	Severity of issue (e.g., low, medium , or high). Justify your answer.
+	Description of issue. How did you find it? A screenshot of problem is excellent.
+	Proof of vulnerability. Show pictures or it didn't happen.
+	Resolution. Make recommendation(s) on how issue can be resolved. Show code if possible.
+
+ -->
+
 	</p>
 
 </body>
