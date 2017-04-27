@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Black Car Service</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="geo_style.css" />
+  
+	<script>
+    	var map;
+    	var myLat = 0;
+	var myLng = 0;
+	var request = new XMLHttpRequest();
+	var marker;
+	var passArr;
+	var distance;
+
+	function getMyLocation() {
+		if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			myLat = position.coords.latitude;
+			myLng = position.coords.longitude;
+			initMap();
+			});
+		}
+		else {
+			alert("Geolocation is not supported by your web browser.  What a shame!");
+			}
+	}
+
+	function initMap() {
+        	map = new google.maps.Map(document.getElementById('map'), {
+          		center: {lat: myLat, lng: myLng},
+          		zoom: 16,
+          		mapTypeId: google.maps.MapTypeId.ROADMAP
+        	});
+        	renderMap();
+        }
+
+	function renderMap(){
+		var myinfowindow = new google.maps.InfoWindow();
+		var me = new google.maps.LatLng(myLat, myLng);
+		map.panTo(me);
+		mymarker = new google.maps.Marker({
+			position: me,
+			title: "dJys58Ox",
+			icon: 'me.png'
+		});
+		mymarker.setMap(map);
+		google.maps.event.addListener(mymarker, 'click', function() {
+			myinfowindow.setContent(mymarker.title);
+			myinfowindow.open(map, mymarker);
+		});
+		loadlocations();
+	}
+
+
+	function loadlocations() {
+		request = new XMLHttpRequest();
+		request.open("POST", "https://localhost:3000/submit", true);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		//request.send("username=dJys58Ox&lat=" + myLat + "&lng=" + myLng + "");
+
+		console.log("good job caro");
+
+		var username = "spam1";
+		for (i = 0; i < 5; i++) {
+			username = username + "spam";
+			request.send("username=" + username + "&lat=" + myLat + "&lng=" + myLng + "");
+		}
+
+		console.log("good job again");
+
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+				passArr = JSON.parse(request.responseText);
+				console.log(passArr);
+
+
+				if (passArr.passengers) { //if you are a passenger
+					for (count = 0; count < passArr["passengers"].length; count++) {
+						var infowindow = new google.maps.InfoWindow();
+						var pass = new google.maps.LatLng(passArr["passengers"][count].lat, passArr["passengers"][count].lng);
+						Number.prototype.toRad = function() {
+   								return this * Math.PI / 180;
+						}
+							var lat2 = myLat; 
+							var lon2 = myLng; 
+							var lat1 = passArr["passengers"][count].lat; 
+							var lon1 = passArr["passengers"][count].lng; 
+							var R = 6371; 
+							var x1 = lat2-lat1;
+							var dLat = x1.toRad();  
+							var x2 = lon2-lon1;
+							var dLon = x2.toRad();  
+							var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                						Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                						Math.sin(dLon/2) * Math.sin(dLon/2);  
+							var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+							distance = R * c; 
+
+						var newmarker = new google.maps.Marker({
+							position: pass,
+							title: "User: " + passArr["passengers"][count]._id + " Distance Away: " + distance + "",
+							icon: 'car.png'
+						});
+						newmarker.setMap(map);
+
+						google.maps.event.addListener(newmarker, 'click', function() {
+							infowindow.setContent(this.title);
+							infowindow.open(map, this);
+						});
+					}
+				} else { //if you are a vehicle
+					for (count = 0; count < passArr["vehicles"].length; count++) {
+						var infowindow = new google.maps.InfoWindow();
+						var pass = new google.maps.LatLng(passArr["vehicles"][count].lat, passArr["vehicles"][count].lng);
+
+						Number.prototype.toRad = function() {
+   								return this * Math.PI / 180;
+						}
+							var lat2 = myLat; 
+							var lon2 = myLng; 
+							var lat1 = passArr["vehicles"][count].lat; 
+							var lon1 = passArr["vehicles"][count].lng; 
+							var R = 6371; 
+							var x1 = lat2-lat1;
+							var dLat = x1.toRad();  
+							var x2 = lon2-lon1;
+							var dLon = x2.toRad();  
+							var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                						Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                						Math.sin(dLon/2) * Math.sin(dLon/2);  
+							var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+							distance = R * c; 
+
+							var newmarker = new google.maps.Marker({
+								position: pass,
+								title: "Distance Away: " + distance + "",
+								icon: 'person.png'
+							});
+							newmarker.setMap(map);
+
+							google.maps.event.addListener(newmarker, 'click', function() {
+								infowindow.setContent(this.title);
+								infowindow.open(map, this);
+							});
+					}
+				}
+			}
+		};
+	}
+
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACf0deH0MqopT_5EGU9qO-3gI-miaFnkw" async defer></script>
+
+</head>
+
+<body onload="getMyLocation()">
+		<div id="map"></div>
+</body>
+</html>
