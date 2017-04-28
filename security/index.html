@@ -8,13 +8,13 @@
 </head>
 
 <body>
-	<h1> Security Assessment </h1>
+	<h1> Security Assessment</h1>
 	<p>
 
 	<h2> Introduction </h2>
 		<ul>
 		<li> I analyzed both the server and client sides of a web application called NotUber. The product is designed to store the clien't location, and either connect the client with passengers to transport or vehicles to use. The locations of the passengers and vehicles are stored are its own databse. I have been hired to document any security or privacy issues in this product.</li>
-		<li> Originally, I was hired to analyze the code of Uche Egonu. However, this code did not work. When I tried to load the heroku app page, I received an Application Error. Running his code locally did not work either--there were too many errors for the page to load when run on a local host. Therefore, Ming Chow became my new clinet. </li>
+		<li> Originally, I was hired to analyze the code of Uche Egonu. However, this code did not work. When I tried to load the heroku app page, I received an Application Error. Running his code locally did not work either--there were too many errors for the page to load when run on a local host. Therefore, Ming Chow became my new clinet. I ran all tests on this code locally on port 3000. </li>
 		</ul>
 
 	<h2> Methodology </h2>
@@ -38,8 +38,10 @@
 					After examining the code, I realized that besides checking whether the "username" field was undefined, there were no limitations to what it could contain. Meaning, there was no check to see whether the "username" was just a name, or whether it was Javascript code, for exmaple. Therefore I decided to send the database JavaScript by curl-ing data to the "/submit" POST method for the application.
 			</li>
 			<li> Proof of Vulnerability: 
-					<p> <img src="proof1.png" alt="First Hack" /> </p>
-					<p> <img src="proof1again.png" alt="First Hack Past 2" /> </p>
+					<p> <img src="proof1again.png" alt="First Hack" /> </p>
+					<p> <img src="proof1.png" alt="First Hack Past 2" /> </p>
+					The first image shows the data being sent to the server, and you can see that it was indeed inserted into the server because the "vehicles" list is being sent back. In the second image, you can see the result of what happens when the "windo.location" script is inserted into the database. For a very brief second, the first part of the image in rendered, and it appears the only passenger in the list is called "window.location". Almost immediately though, the page changes to Google. This shows that the script was in fact inserted into the database, and is causing the page to be reditrected to Google, as expected.
+
 			</li>
 			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. (It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue). </li>
 			</ul>
@@ -49,9 +51,11 @@
 			<li> Severity: Medium severity. This kind of attack could potentially cause the whole data base to crash, and then the whole application would fail to work. </li>
 			<li> Description: This is the command I ran when testing this security issue: 
 					<p> <img src="issue2.png" alt="Second Issue" /> </p>
+					I realized this could be a problem when looking at where data was being sent to the database. There was no limit to the number of documents that could be added to the database. Within the loop, I made sure that the "username" field was changing each time, so that the document wasn't simply being updated, so I added the value of "i" to the end of every entry.
 			</li>
 			<li> Proof of Vulnerability: 
 					<p> <img src="proof2.png" alt="First Hack" /> </p>
+					Since there was no limitation in the code to the number of documents that could be inserted, the page should not be able to handle 500,000 entries. Eventually, the database shoudl overload, and the page should not load--as seen in the screen shot above.
 			</li>
 			<li> Resolution: Before inserting into the database, insert a check in the code to check how many documents have been inserted into the database. If it is over a certain number, then print an error message, or print a message that the database needs to be cleared. </li>
 			</ul>
@@ -65,6 +69,7 @@
 			</li>
 			<li> Proof of Vulnerability: 
 					<p> <img src="proof3.png" alt="Third Hack" /> </p>
+					Above is a screenshot of the "Not Uber" page after the image is inserted into the database as the username. There is no username for this passenger, only an image, as expected from the html injection that was performed.
 			</li>
 			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. (It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue). </li>
 			</ul>
@@ -72,24 +77,17 @@
 
 		<h2> Conclusion </h2>
 		<ul>
-		<li> list future considerations and recommendations with costs</li>
+		<li> In the furute, I would recommend that developers be more skeptical of user data, and check the data that clients are trying to send to the server more throughly. Additionally, I would recommend that code take better care of the database, and make sure that it hasn't been overloaded by checking its size each time before new data is inserted into it.
 		</ul>
 
 		<h2> References </h2>
 		<ul>
-		<li> list of references used </li>
+			<li> http://www.veracode.com/security/xss </li>
+			<li> https://www.w3schools.com/js/js_window_location.asp </li>
+			<li> https://deadliestwebattacks.com/html-injection-quick-reference/ </li>
+			<li> https://unix.stackexchange.com/questions/129257/curl-url-call-in-for-loop </li>
+			<li> http://stackoverflow.com/questions/13341955/how-to-pass-a-variable-in-a-curl-command-in-shell-scripting </li>
 		</ul>
-
-<!-- Issues Found - For each issue that you find, document:
-
-	Issue (e.g., database injection, really bad programming practice)
-	Location or page where issue was found
-	Severity of issue (e.g., low, medium , or high). Justify your answer.
-	Description of issue. How did you find it? A screenshot of problem is excellent.
-	Proof of vulnerability. Show pictures or it didn't happen.
-	Resolution. Make recommendation(s) on how issue can be resolved. Show code if possible.
-
- -->
 
 	</p>
 
