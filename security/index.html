@@ -13,8 +13,8 @@
 
 	<h2> Introduction </h2>
 		<ul>
-		<li> I analyzed both the server and client sides of a web application called NotUber. The product is designed to store the clien't location, and either connect the client with passengers to transport or vehicles to use. The locations of the passengers and vehicles are stored are its own databse. I have been hired to document any security or privacy issues in this product.</li>
-		<li> Originally, I was hired to analyze the code of Uche Egonu. However, this code did not work. When I tried to load the heroku app page, I received an Application Error. Running his code locally did not work either--there were too many errors for the page to load when run on a local host. Therefore, Ming Chow became my new clinet. I ran all tests on this code locally on port 3000. </li>
+		<li> I analyzed both the server and client sides of a web application called NotUber. The product is designed to store the client's location, and either connect the client with passengers to transport or vehicles to use. The locations of the passengers and vehicles are stored in a databse. I have been hired to document any security or privacy issues in this product.</li>
+		<li> Originally, I was hired to analyze the code of Uche Egonu. However, this code did not work. When I tried to load the heroku app page, I received an Application Error. Running his code locally did not work either--there were too many errors for the page to load when run on a local host. Therefore, Ming Chow became my new clinet. I ran all tests on his code locally, on port 3000. </li>
 		</ul>
 
 	<h2> Methodology </h2>
@@ -40,44 +40,44 @@
 			<li> Proof of Vulnerability: 
 					<p> <img src="proof1again.png" alt="First Hack" /> </p>
 					<p> <img src="proof1.png" alt="First Hack Past 2" /> </p>
-					The first image shows the data being sent to the server, and you can see that it was indeed inserted into the server because the "vehicles" list is being sent back. In the second image, you can see the result of what happens when the "windo.location" script is inserted into the database. For a very brief second, the first part of the image in rendered, and it appears the only passenger in the list is called "window.location". Almost immediately though, the page changes to Google. This shows that the script was in fact inserted into the database, and is causing the page to be reditrected to Google, as expected.
+					The first image shows the data being sent to the server, and you can see that it was indeed inserted into the server because the "vehicles" list is being sent back. In the second image, you can see the result of what happens when the "window.location" script is inserted into the database. For a very brief second, the first part of the image in rendered, and it appears the only passenger in the list is called "window.location". Almost immediately though, the page changes to Google. This shows that the script was in fact inserted into the database, and is causing the page to be reditrected to Google, as expected.
 
 			</li>
-			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. (It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue). </li>
+			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue. </li>
 			</ul>
 		<li> Issue #2: Overloaded Database </li>
 			<ul>
 			<li> Location of Issue: This problem arose on the back-end of the product, when the data was being inserted into the database. It became apparent when visiting the "/" home page.  </li>
-			<li> Severity: Medium severity. This kind of attack could potentially cause the whole data base to crash, and then the whole application would fail to work. </li>
+			<li> Severity: High severity. This kind of attack could potentially cause the whole data base to crash, and then the whole application would fail to work. </li>
 			<li> Description: This is the command I ran when testing this security issue: 
 					<p> <img src="issue2.png" alt="Second Issue" /> </p>
 					I realized this could be a problem when looking at where data was being sent to the database. There was no limit to the number of documents that could be added to the database. Within the loop, I made sure that the "username" field was changing each time, so that the document wasn't simply being updated, so I added the value of "i" to the end of every entry.
 			</li>
 			<li> Proof of Vulnerability: 
 					<p> <img src="proof2.png" alt="First Hack" /> </p>
-					Since there was no limitation in the code to the number of documents that could be inserted, the page should not be able to handle 500,000 entries. Eventually, the database shoudl overload, and the page should not load--as seen in the screen shot above.
+					Since there was no limitation in the code to the number of documents that could be inserted, the page should not be able to handle 500,000 entries. Eventually, the database should overload, and the page should not load--as seen in the screen shot above.
 			</li>
 			<li> Resolution: Before inserting into the database, insert a check in the code to check how many documents have been inserted into the database. If it is over a certain number, then print an error message, or print a message that the database needs to be cleared. </li>
 			</ul>
 		<li> Issue #3: HTML Injection </li>
 			<ul>
 			<li> Location of Issue: Once again, this was a problem when the avaliable passengers are displayed on the "/" page. However, the issue arose in the "/submit" POST method.  </li>
-			<li> Severity: Medium severity. In this case, when I was testing the security of this code, I sent the server html that contained a user whose name was simply a picture. This could be problematic, because if a driver was looking for passengers, this hack could either jeopardize or complicate their job, because the username of the person they are trying to pick up is simply a picture. This could be even more problematic if someone sent more dangerous html. </li>
+			<li> Severity: Medium severity. In this case, when I was testing the security of this code, I sent the server html that contained a user whose name was simply a picture. This could be problematic, because if a driver was looking for passengers, this hack could complicate their job, because the username of the person they are trying to pick up is simply a picture. This could be even more problematic if someone sent more dangerous html. </li>
 			<li> Description: This is the command I ran when testing this security issue: 
 					<p> <img src="issue3.png" alt="Third Issue" /> </p>
-					I realized when testing the "username" field when examining the first issue that as long as it wasn't undefined, the "username" field could contain anything, including html code. In this case I decided to send the database html code by curl-ing data to the "/submit" POST method for the application.
+					I realized when testing the "username" field when examining the first issue that as long as it wasn't undefined, the "username" field could contain anything, including html code. In this case I decided to send the database html code by using curl to send data to the "/submit" POST method for the application.
 			</li>
 			<li> Proof of Vulnerability: 
 					<p> <img src="proof3.png" alt="Third Hack" /> </p>
 					Above is a screenshot of the "Not Uber" page after the image is inserted into the database as the username. There is no username for this passenger, only an image, as expected from the html injection that was performed.
 			</li>
-			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. (It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue). </li>
+			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue. </li>
 			</ul>
 		</ul>
 
 		<h2> Conclusion </h2>
 		<ul>
-		<li> In the furute, I would recommend that developers be more skeptical of user data, and check the data that clients are trying to send to the server more throughly. Additionally, I would recommend that code take better care of the database, and make sure that it hasn't been overloaded by checking its size each time before new data is inserted into it.
+		<li> In the furute, I would recommend that developers be more skeptical of user input, and check the data that clients are trying to send to the server more throughly. Additionally, I would recommend that code take better care of the database, and make sure that it hasn't been overloaded by checking its size each time before new data is inserted into it.
 		</ul>
 
 		<h2> References </h2>
