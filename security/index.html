@@ -24,7 +24,7 @@
 
 	<h2> Abstract of Findings </h2>
 		<ul>
-		<li> Provide an overview of all the security and privacy issues you identified. </li>
+		<li> The 2 main issues I found were with the "username" field of the POST method, and with the data base. The "username" field allowed any usernames, including data that wouldn't be considered a proper username, and the database didn't have a limit on the number of documents it can store. </li>
 		</ul>
 
 	<h2> Issues Found </h2>
@@ -32,26 +32,41 @@
 		<li> Issue #1: Cross Site Scripting </li>
 			<ul>
 			<li> Location of Issue: This was a problem when the avaliable passengers are displayed on the "/" page. However, the issue arose in the "/submit" POST method.  </li>
-			<li> Severity: </li>
-			<li> Description: </li>
-			<li> Proof of Vulnerability: </li>
-			<li> Resolution: </li>
+			<li> Severity: High severity. In this case, the script code I sent as the "username" field simply redirected the page to google.com. However, this could still be problematic, because someone with a malicious intent could redirect the index page to a site showing wrong passenger data. This kind of attack is dangerous in general, because user could think they're looking at the correct page, but really it could be something completely different or wrong. This could even be dangerous, especially if this happened on an imporant website, like a government website, because it could cause people to get wrong information about something potentially important. Additionally, this kind of attack is persistent--once this is sent to the data base, it continues to redirect users to the wrong page. </li>
+			<li> Description: This is the command I ran when testing this security issue: 
+					<p> <img src="issue1.png" alt="First Issue" /> </p>
+					After examining the code, I realized that besides checking whether the "username" field was undefined, there were no limitations to what it could contain. Meaning, there was no check to see whether the "username" was just a name, or whether it was Javascript code, for exmaple. Therefore I decided to send the database JavaScript by curl-ing data to the "/submit" POST method for the application.
+			</li>
+			<li> Proof of Vulnerability: 
+					<p> <img src="proof1.png" alt="First Hack" /> </p>
+					<p> <img src="proof1again.png" alt="First Hack Past 2" /> </p>
+			</li>
+			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. (It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue). </li>
 			</ul>
 		<li> Issue #2: Overloaded Database </li>
 			<ul>
 			<li> Location of Issue: This problem arose on the back-end of the product, when the data was being inserted into the database. It became apparent when visiting the "/" home page.  </li>
-			<li> Severity: </li>
-			<li> Description: </li>
-			<li> Proof of Vulnerability: </li>
-			<li> Resolution: </li>
+			<li> Severity: Medium severity. This kind of attack could potentially cause the whole data base to crash, and then the whole application would fail to work. </li>
+			<li> Description: This is the command I ran when testing this security issue: 
+					<p> <img src="issue2.png" alt="Second Issue" /> </p>
+			</li>
+			<li> Proof of Vulnerability: 
+					<p> <img src="proof2.png" alt="First Hack" /> </p>
+			</li>
+			<li> Resolution: Before inserting into the database, insert a check in the code to check how many documents have been inserted into the database. If it is over a certain number, then print an error message, or print a message that the database needs to be cleared. </li>
 			</ul>
 		<li> Issue #3: HTML Injection </li>
 			<ul>
 			<li> Location of Issue: Once again, this was a problem when the avaliable passengers are displayed on the "/" page. However, the issue arose in the "/submit" POST method.  </li>
-			<li> Severity: </li>
-			<li> Description: </li>
-			<li> Proof of Vulnerability: </li>
-			<li> Resolution: </li>
+			<li> Severity: Medium severity. In this case, when I was testing the security of this code, I sent the server html that contained a user whose name was simply a picture. This could be problematic, because if a driver was looking for passengers, this hack could either jeopardize or complicate their job, because the username of the person they are trying to pick up is simply a picture. This could be even more problematic if someone sent more dangerous html. </li>
+			<li> Description: This is the command I ran when testing this security issue: 
+					<p> <img src="issue3.png" alt="Third Issue" /> </p>
+					I realized when testing the "username" field when examining the first issue that as long as it wasn't undefined, the "username" field could contain anything, including html code. In this case I decided to send the database html code by curl-ing data to the "/submit" POST method for the application.
+			</li>
+			<li> Proof of Vulnerability: 
+					<p> <img src="proof3.png" alt="Third Hack" /> </p>
+			</li>
+			<li> Resolution: While checking whether the "username", "lat", and "lng" fields are undefined, also check whether the username is actually a username one would expect. (It looks like this kind of check has actually been commented out in this case--uncommenting that check would likely fix this security issue). </li>
 			</ul>
 		</ul>
 
